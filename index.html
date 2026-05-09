@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mother's Day</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #40221f;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255, 213, 220, 0.9), transparent 28%),
+        radial-gradient(circle at 90% 5%, rgba(255, 238, 177, 0.8), transparent 24%),
+        linear-gradient(135deg, #fff8f0 0%, #fde6e1 47%, #fff4cf 100%);
+    }
+
+    .page {
+      width: min(1360px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0 26px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.08rem;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(135deg, #d84a61, #f28a43);
+      box-shadow: 0 10px 24px rgba(180, 64, 76, 0.22);
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(127, 70, 61, 0.16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(12px);
+    }
+
+    .tab-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 18px;
+      color: #6b3b36;
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(216, 74, 97, 0.09);
+    }
+
+    .tab-btn.active {
+      color: #fff;
+      background: #bd3f55;
+      box-shadow: 0 8px 18px rgba(189, 63, 85, 0.22);
+    }
+
+    main {
+      overflow: hidden;
+      border: 1px solid rgba(127, 70, 61, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 28px 80px rgba(117, 57, 47, 0.17);
+    }
+
+    .tab-panel {
+      display: none;
+      min-height: 620px;
+      padding: clamp(24px, 4vw, 58px);
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(620px, 1.2fr) minmax(300px, 0.8fr);
+      align-items: center;
+      gap: clamp(28px, 4vw, 56px);
+    }
+
+    .eyebrow {
+      width: fit-content;
+      margin: 0 0 18px;
+      padding: 7px 12px;
+      border: 1px solid rgba(189, 63, 85, 0.24);
+      border-radius: 999px;
+      color: #9d3347;
+      background: #fff7f4;
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 920px;
+      color: #7a272f;
+      font-size: clamp(3rem, 5.5vw, 5.55rem);
+    }
+
+    h2 {
+      color: #7a272f;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+    }
+
+    p {
+      color: #5e3a36;
+      line-height: 1.75;
+      font-size: 1.04rem;
+    }
+
+    .lead {
+      max-width: 900px;
+      margin: 22px 0 28px;
+      font-size: clamp(1.12rem, 1.45vw, 1.3rem);
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .action-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 22px;
+      color: #fff;
+      background: #bd3f55;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(189, 63, 85, 0.2);
+    }
+
+    .quiet-btn {
+      color: #7a272f;
+      background: #fff;
+      border: 1px solid rgba(127, 70, 61, 0.2);
+      box-shadow: none;
+    }
+
+    .portrait {
+      position: relative;
+      min-height: 480px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff2dc;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+    }
+
+    .portrait-img {
+      display: block;
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+    }
+
+    .portrait-note {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      padding: 18px;
+      border-radius: 8px;
+      color: #fff;
+      background: rgba(80, 38, 33, 0.66);
+      backdrop-filter: blur(10px);
+    }
+
+    .portrait-note strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.08rem;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .photo-card {
+      min-height: 360px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 18px 40px rgba(117, 57, 47, 0.12);
+    }
+
+    .photo-img {
+      display: block;
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      background: #fff2dc;
+    }
+
+    .photo-img-ishu {
+      object-position: center 30%;
+    }
+
+    .photo-card figcaption {
+      padding: 18px;
+      font-weight: 800;
+      color: #7a272f;
+    }
+
+    .message-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.75fr) minmax(320px, 1fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .message-card,
+    .promise-list {
+      border-radius: 8px;
+      background: #fffdf8;
+      box-shadow: 0 18px 42px rgba(117, 57, 47, 0.12);
+    }
+
+    .message-card {
+      padding: clamp(24px, 4vw, 42px);
+      border-left: 7px solid #bd3f55;
+    }
+
+    .message-card p {
+      margin: 0 0 18px;
+    }
+
+    .signature {
+      margin-top: 30px;
+      color: #bd3f55;
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .promise-list {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+    }
+
+    .promise-list h2,
+    .flower-garden {
+      position: relative;
+      z-index: 2;
+    }
+
+    .flower {
+      position: absolute;
+      z-index: 1;
+      width: 74px;
+      height: 74px;
+      opacity: 0.9;
+      animation: flowerFloat 4.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .flower::before,
+    .flower::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #f5cf75 0 16%, transparent 17%),
+        radial-gradient(circle at 50% 8%, #e86a79 0 20%, transparent 21%),
+        radial-gradient(circle at 92% 50%, #f4958c 0 20%, transparent 21%),
+        radial-gradient(circle at 50% 92%, #d84a61 0 20%, transparent 21%),
+        radial-gradient(circle at 8% 50%, #f28a43 0 20%, transparent 21%);
+    }
+
+    .flower::after {
+      inset: auto;
+      left: 35px;
+      top: 50px;
+      width: 8px;
+      height: 56px;
+      border-radius: 999px;
+      background: #4a895d;
+      transform-origin: top;
+      transform: rotate(10deg);
+    }
+
+    .flower-one {
+      right: 18px;
+      top: 18px;
+    }
+
+    .flower-two {
+      left: 18px;
+      bottom: 18px;
+      transform: scale(0.82) rotate(-12deg);
+      animation-delay: -1.4s;
+    }
+
+    .flower-three {
+      right: 56px;
+      bottom: 86px;
+      transform: scale(0.68) rotate(14deg);
+      animation-delay: -2.5s;
+    }
+
+    @keyframes flowerFloat {
+      0%,
+      100% {
+        translate: 0 0;
+      }
+
+      50% {
+        translate: 0 -12px;
+      }
+    }
+
+    .promise-list ul {
+      display: grid;
+      gap: 14px;
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .flower-garden {
+      min-height: 300px;
+      margin-top: 24px;
+      display: grid;
+      place-items: center;
+    }
+
+    .bouquet-button {
+      position: relative;
+      width: min(320px, 100%);
+      min-height: 290px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fff8ef 0%, #ffe7df 100%);
+      cursor: pointer;
+      font: inherit;
+      box-shadow: inset 0 0 0 1px rgba(189, 63, 85, 0.12), 0 18px 34px rgba(117, 57, 47, 0.12);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .bouquet-button:hover {
+      transform: translateY(-3px);
+      box-shadow: inset 0 0 0 1px rgba(189, 63, 85, 0.16), 0 22px 42px rgba(117, 57, 47, 0.18);
+    }
+
+    .bouquet {
+      position: absolute;
+      left: 50%;
+      bottom: 38px;
+      width: 220px;
+      height: 220px;
+      transform: translateX(-50%);
+      animation: bouquetSway 4.6s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+
+    .bouquet-stem {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 10px;
+      height: 138px;
+      border-radius: 999px;
+      background: #4a895d;
+      transform-origin: bottom;
+    }
+
+    .bouquet-stem:nth-child(1) {
+      transform: translateX(-50%) rotate(-24deg);
+    }
+
+    .bouquet-stem:nth-child(2) {
+      transform: translateX(-50%) rotate(-12deg);
+    }
+
+    .bouquet-stem:nth-child(3) {
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+    .bouquet-stem:nth-child(4) {
+      transform: translateX(-50%) rotate(13deg);
+    }
+
+    .bouquet-stem:nth-child(5) {
+      transform: translateX(-50%) rotate(25deg);
+    }
+
+    .bouquet-flower {
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #f5cf75 0 14%, transparent 15%),
+        radial-gradient(circle at 50% 8%, var(--petal-a) 0 22%, transparent 23%),
+        radial-gradient(circle at 92% 50%, var(--petal-b) 0 22%, transparent 23%),
+        radial-gradient(circle at 50% 92%, var(--petal-a) 0 22%, transparent 23%),
+        radial-gradient(circle at 8% 50%, var(--petal-b) 0 22%, transparent 23%);
+      filter: drop-shadow(0 12px 14px rgba(189, 63, 85, 0.18));
+      animation: flowerFloat 3.8s ease-in-out infinite;
+    }
+
+    .bouquet-flower:nth-of-type(6) {
+      --petal-a: #d84a61;
+      --petal-b: #f4958c;
+      left: 2px;
+      top: 76px;
+    }
+
+    .bouquet-flower:nth-of-type(7) {
+      --petal-a: #f28a43;
+      --petal-b: #f5cf75;
+      left: 44px;
+      top: 32px;
+      animation-delay: -0.8s;
+    }
+
+    .bouquet-flower:nth-of-type(8) {
+      --petal-a: #e86a79;
+      --petal-b: #d84a61;
+      left: 102px;
+      top: 12px;
+      animation-delay: -1.5s;
+    }
+
+    .bouquet-flower:nth-of-type(9) {
+      --petal-a: #f4958c;
+      --petal-b: #f28a43;
+      right: 34px;
+      top: 50px;
+      animation-delay: -2.1s;
+    }
+
+    .bouquet-flower:nth-of-type(10) {
+      --petal-a: #d84a61;
+      --petal-b: #f5cf75;
+      right: 0;
+      top: 96px;
+      animation-delay: -1.1s;
+    }
+
+    .bouquet-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      width: 104px;
+      height: 76px;
+      border-radius: 0 0 46px 46px;
+      background: linear-gradient(135deg, #bd3f55, #f28a43);
+      transform: translateX(-50%);
+      box-shadow: 0 12px 22px rgba(189, 63, 85, 0.2);
+    }
+
+    .bouquet-tag {
+      position: absolute;
+      right: 18px;
+      bottom: 88px;
+      padding: 9px 13px;
+      border-radius: 8px;
+      color: #7a272f;
+      background: #fffdf8;
+      font-weight: 800;
+      box-shadow: 0 10px 18px rgba(117, 57, 47, 0.13);
+      transform: rotate(7deg);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #f5cf75;
+      box-shadow: 0 0 14px #f5cf75;
+      animation: sparklePulse 1.8s ease-in-out infinite;
+    }
+
+    .bouquet-button.sparkling .sparkle {
+      animation: sparkleBurst 0.9s ease-out forwards;
+    }
+
+    .bouquet-button.sparkling .bouquet {
+      animation: bouquetSway 0.28s ease-in-out 3;
+    }
+
+    .bouquet-button.sparkling .sparkle-one {
+      --sparkle-x: -52px;
+      --sparkle-y: -64px;
+    }
+
+    .bouquet-button.sparkling .sparkle-two {
+      --sparkle-x: 56px;
+      --sparkle-y: -70px;
+    }
+
+    .bouquet-button.sparkling .sparkle-three {
+      --sparkle-x: -34px;
+      --sparkle-y: 42px;
+    }
+
+    .sparkle-one {
+      left: 36px;
+      top: 46px;
+    }
+
+    .sparkle-two {
+      right: 48px;
+      top: 38px;
+      animation-delay: -0.7s;
+    }
+
+    .sparkle-three {
+      left: 68px;
+      bottom: 82px;
+      animation-delay: -1.1s;
+    }
+
+    @keyframes bouquetSway {
+      0%,
+      100% {
+        rotate: -2deg;
+      }
+
+      50% {
+        rotate: 2deg;
+      }
+    }
+
+    @keyframes sparklePulse {
+      0%,
+      100% {
+        opacity: 0.25;
+        scale: 0.65;
+      }
+
+      50% {
+        opacity: 1;
+        scale: 1.35;
+      }
+    }
+
+    @keyframes sparkleBurst {
+      0% {
+        opacity: 1;
+        scale: 0.7;
+        translate: 0 0;
+      }
+
+      55% {
+        opacity: 1;
+        scale: 2.2;
+        translate: var(--sparkle-x) var(--sparkle-y);
+      }
+
+      100% {
+        opacity: 0;
+        scale: 0.25;
+        translate: calc(var(--sparkle-x) * 1.35) calc(var(--sparkle-y) * 1.35);
+      }
+    }
+
+    .promise-list li {
+      position: relative;
+      z-index: 2;
+      padding: 16px 18px;
+      border-radius: 8px;
+      color: #5d3431;
+      background: #fff5ef;
+      font-weight: 700;
+    }
+
+    footer {
+      padding: 18px 0 0;
+      color: #7c5854;
+      text-align: center;
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 850px) {
+      header,
+      .hero,
+      .message-layout {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        display: grid;
+        justify-items: start;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding-inline: 10px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait {
+        min-height: 380px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        width: min(100% - 20px, 1120px);
+        padding-top: 14px;
+      }
+
+      .tab-panel {
+        min-height: auto;
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: 3.05rem;
+      }
+
+      nav {
+        border-radius: 8px;
+      }
+
+      .tab-btn {
+        border-radius: 8px;
+        font-size: 0.92rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">M</div>
+        <span>Mother's Day Love</span>
+      </div>
+
+      <nav aria-label="Main tabs">
+        <button class="tab-btn active" data-tab="home">Home</button>
+        <button class="tab-btn" data-tab="photos">Photos</button>
+        <button class="tab-btn" data-tab="message">Message</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="tab-panel active" id="home">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Celebrating Mother's Day</p>
+            <h1>For the heart that made home feel like home.</h1>
+            <p class="lead">
+              Today is for the hugs, the lessons, the warm food, the quiet sacrifices,
+              and every small act of love that made life softer and brighter.
+            </p>
+            <div class="cta-row">
+              <button class="action-btn" data-open-tab="message">Mini Message</button>
+            </div>
+          </div>
+
+          <aside class="portrait" aria-label="Mother's Day illustration">
+            <img
+              class="portrait-img"
+              src="images/WhatsApp Image 2026-05-09 at 8.23.34 PM.jpeg"
+              alt="Mother's Day photo"
+            />
+            <div class="portrait-note">
+              <strong>Happy Mother's Day</strong>
+              A little page filled with only love and gratitude.
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="photos">
+        <div class="section-intro">
+          <p class="eyebrow">Photo Memories</p>
+          <h2>Little moments worth keeping forever.</h2>
+          <p>
+            These frames celebrate the everyday memories that become priceless:
+            togetherness, flowers, handwritten notes, and the comfort of family.
+          </p>
+        </div>
+
+        <div class="gallery">
+          <figure class="photo-card">
+            <img
+              class="photo-img"
+              src="images/WhatsApp Image 2026-05-09 at 6.13.11 PM.jpeg"
+              alt="Mother and child memory"
+            />
+            <figcaption>mum and her daughters</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img
+              class="photo-img"
+              src="images/WhatsApp Image 2026-05-09 at 6.13.35 PM.jpeg"
+              alt="Mother's Day flowers"
+            />
+            <figcaption>thankyou for always looking out for me</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img
+              class="photo-img photo-img-ishu"
+              src="images/WhatsApp Image 2026-05-09 at 6.14.13 PM.jpeg"
+              alt="Handwritten Mother's Day card"
+            />
+            <figcaption>with ishu</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img
+              class="photo-img"
+              src="images/WhatsApp Image 2026-05-09 at 6.18.01 PM.jpeg"
+              alt="Mother's Day memory"
+            />
+            <figcaption>1st birthday</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="message">
+        <div class="section-intro">
+          <p class="eyebrow">A Special Message</p>
+          <h2>Dear amma, thank you for everything.</h2>
+        </div>
+
+        <div class="message-layout">
+          <article class="message-card">
+            <p>
+              You will always be the first person who made love feel simple, strong, and endless.
+            Thank you allowing me to have safe place with you, where I know that I can come back to you anytime, no matter what
+            </p>
+            <p>
+              Thank you for believing in me, guiding me, forgiving me, feeding me,
+              listening to me, and loving me even on the days I did not know how to
+              say thank you.
+            </p>
+            <p>
+              I hope this Mother's Day gives you only love that you have always given me.
+            </p>
+            <div class="signature">With love</div>
+          </article>
+
+          <aside class="promise-list">
+            <span class="flower flower-one" aria-hidden="true"></span>
+            <span class="flower flower-two" aria-hidden="true"></span>
+            <span class="flower flower-three" aria-hidden="true"></span>
+            <h2>For You</h2>
+            <div class="flower-garden">
+              <button class="bouquet-button" type="button" data-open-tab="photos" aria-label="Open photos tab">
+                <span class="sparkle sparkle-one" aria-hidden="true"></span>
+                <span class="sparkle sparkle-two" aria-hidden="true"></span>
+                <span class="sparkle sparkle-three" aria-hidden="true"></span>
+                <span class="bouquet" aria-hidden="true">
+                  <span class="bouquet-stem"></span>
+                  <span class="bouquet-stem"></span>
+                  <span class="bouquet-stem"></span>
+                  <span class="bouquet-stem"></span>
+                  <span class="bouquet-stem"></span>
+                  <span class="bouquet-flower"></span>
+                  <span class="bouquet-flower"></span>
+                  <span class="bouquet-flower"></span>
+                  <span class="bouquet-flower"></span>
+                  <span class="bouquet-flower"></span>
+                  <span class="bouquet-wrap"></span>
+                </span>
+                <span class="bouquet-tag">Click on me</span>
+              </button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      by akshata
+    </footer>
+  </div>
+
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const panels = document.querySelectorAll(".tab-panel");
+
+    function openTab(tabId) {
+      tabButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.tab === tabId);
+      });
+
+      panels.forEach((panel) => {
+        panel.classList.toggle("active", panel.id === tabId);
+      });
+    }
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", () => openTab(button.dataset.tab));
+    });
+
+    document.querySelectorAll("[data-open-tab]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.classList.contains("bouquet-button")) {
+          button.classList.add("sparkling");
+          button.disabled = true;
+
+          setTimeout(() => {
+            openTab(button.dataset.openTab);
+            button.classList.remove("sparkling");
+            button.disabled = false;
+          }, 950);
+
+          return;
+        }
+
+        openTab(button.dataset.openTab);
+      });
+    });
+  </script>
+</body>
+</html>
